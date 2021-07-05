@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+
+}
+
+//group 'org.example'
+//version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+//FAT JAR -> a jar is executable java code. FAT is one with all dependencies
+jar {
+    manifest {
+        attributes 'Main-Class': 'pt.ipb.dsys.peerbox.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    {
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
+        exclude '**/module-info.class'
+    }
+}
+
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.controls', 'javafx.fxml', "javafx.base","javafx.graphics" ]
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation 'org.jgroups:jgroups:5.1.6.Final' //jgroups
+    implementation 'ch.qos.logback:logback-classic:1.2.3' //logbaacks
+
+    implementation 'commons-io:commons-io:2.8.0' //apache io
+    implementation 'commons-codec:commons-codec:1.15' //apache base64 encoder
+    implementation 'org.apache.commons:commons-compress:1.20'
+}
+
+test {
+    useJUnitPlatform()
+}
+

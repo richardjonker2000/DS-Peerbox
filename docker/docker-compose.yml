@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  gossip-router:
+    image: openjdk:15
+    container_name: gossip-router
+    networks:
+      - peerbox-net
+    ports:
+      - 12001:12001
+    volumes:
+      - ../build/libs:/app
+
+    command: java -cp /app/PeerBox-1.jar org.jgroups.stack.GossipRouter -port 12001
+
+  peerbox-host:
+    image: openjdk:15
+    scale: 2
+    depends_on:
+      - gossip-router
+    networks:
+      - peerbox-net
+    volumes:
+      - ../build/libs:/app
+      - ../docker/Files/:/Files/
+
+    command: java -cp /app/PeerBox-1.jar pt.ipb.dsys.peerbox.Main
+
+
+networks:
+  peerbox-net:
+    driver: bridge
+

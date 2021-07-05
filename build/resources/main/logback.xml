@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5p [%15.15t] %20.20logger{0}: %m%n%ex</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="pt.ipb.dsys.peerbox" level="DEBUG" />
+
+    <root level="WARN">
+        <appender-ref ref="stdout" />
+    </root>
+
+</configuration>
